@@ -1,0 +1,141 @@
+package com.sgtesting.testscripts;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class JavaScriptDemo {
+
+	static WebDriver oBrowser=null;
+	public static void main(String[] args) {
+		launchBrowser();
+		navigate();
+		displayTitle();
+		displayURL();
+		displayNumberOfLinks();
+	//	setTtextInPaswordField();
+	//	setTtextInPaswordField2();
+	//	clickOnSubmitButtonField();
+	//	clickOnSubmitButtonField2();
+	//	clickOnCheckBoxField();
+	//	clickOnCheckBoxField2();
+		selectItemFromDropDown();
+	}
+	
+	static void launchBrowser()
+	{
+		String path=null;
+		try
+		{
+			path=System.getProperty("user.dir");
+			System.setProperty("webdriver.chrome.driver", path+"\\Library\\drivers\\chromedriver.exe");
+			oBrowser=new ChromeDriver();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	static void navigate()
+	{
+		try
+		{
+			oBrowser.get("file:///G:/HTML/Sample.html");
+			Thread.sleep(2000);
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	static void displayTitle()
+	{
+		JavascriptExecutor js=null;
+		js=(JavascriptExecutor) oBrowser;
+		
+		String title=(String) js.executeScript("var kk=document.title;return kk;");
+		System.out.println(title);
+	}
+	
+	static void displayURL()
+	{
+		JavascriptExecutor js=null;
+		js=(JavascriptExecutor) oBrowser;
+		
+		String url=(String) js.executeScript("var kk=document.URL;return kk;");
+		System.out.println(url);
+	}
+	
+	static void displayNumberOfLinks()
+	{
+		JavascriptExecutor js=null;
+		js=(JavascriptExecutor) oBrowser;
+		long links=(long) js.executeScript("var kk=document.getElementsByTagName('A');return kk.length;");
+		System.out.println("# of Links :"+links);
+	}
+
+	static void setTtextInPaswordField()
+	{
+		JavascriptExecutor js=null;
+		js=(JavascriptExecutor) oBrowser;
+		js.executeScript("document.getElementById('pwd1pass1word1').value='Welcome123';");
+	}
+	
+	static void setTtextInPaswordField2()
+	{
+		WebElement oEle=oBrowser.findElement(By.id("pwd1pass1word1"));
+		JavascriptExecutor js=null;
+		js=(JavascriptExecutor) oBrowser;
+		js.executeScript("arguments[0].value='DemoUser12345'",oEle);
+	}
+	
+	static void clickOnSubmitButtonField()
+	{
+		JavascriptExecutor js=null;
+		js=(JavascriptExecutor) oBrowser;
+		js.executeScript("document.getElementById('btn1submit1button1').click();");
+	}
+	
+	static void clickOnSubmitButtonField2()
+	{
+		JavascriptExecutor js=null;
+		js=(JavascriptExecutor) oBrowser;
+		WebElement oEle=oBrowser.findElement(By.id("btn1submit1button1"));
+		js.executeScript("arguments[0].click();",oEle);
+	}
+	
+	static void clickOnCheckBoxField()
+	{
+		JavascriptExecutor js=null;
+		js=(JavascriptExecutor) oBrowser;
+		js.executeScript("document.getElementById('chk2linux').click();");
+	}
+	
+	static void clickOnCheckBoxField2()
+	{
+		JavascriptExecutor js=null;
+		js=(JavascriptExecutor) oBrowser;
+
+		WebElement oEle=oBrowser.findElement(By.id("chk2linux"));
+		js.executeScript("arguments[0].click();",oEle);
+	}
+	
+	static void selectItemFromDropDown()
+	{
+		JavascriptExecutor js=null;
+		js=(JavascriptExecutor) oBrowser;
+		
+		String str="";
+		str+="var list=document.getElementById('tools');";
+		str+="for(var i=0;i<list.length;i++)";
+		str+="{";
+		str+="if(list[i].text='Selenium RemoteControl')";
+		str+="{";
+		str+="list[i].selected='1'";
+		str+="}";
+		str+="}";
+		js.executeScript(str);
+	}
+}
